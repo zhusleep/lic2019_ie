@@ -3,6 +3,8 @@ import json
 import pickle
 from keras.preprocessing.text import Tokenizer
 import os
+from tqdm import tqdm as tqdm
+
 
 """
 1.读取all_50_schemas,把关系做编码
@@ -42,7 +44,7 @@ if os.path.exists('./data_deal/p.pkl'):
     with open('./data_deal/p.pkl', 'rb') as f:
         p_index, index_p = pickle.load(f)
 else:
-    with open('./data/all_50_schemas', 'r', encoding='utf-8') as f:
+    with open('../信息抽取/data/all_50_schemas', 'r', encoding='utf-8') as f:
         p_set = []
         for line_raw in f:
             line_raw = json.loads(line_raw)
@@ -58,6 +60,7 @@ else:
 texts = []
 texts_pos = []
 
+
 # 词性转序列
 def postag2list(postag):
     postag_list = []
@@ -72,7 +75,7 @@ def postag2list(postag):
 def process_data(file_path):
     data_process = []
     with open(file_path, 'r', encoding='utf-8') as f:
-        for idx, line_raw in enumerate(f):
+        for idx, line_raw in tqdm(enumerate(f)):
             line_raw = json.loads(line_raw)
 
             # 跳过没有信息抽取的
@@ -119,7 +122,7 @@ def process_data(file_path):
                         s_start_label[s[0]] = 1
                         s_end_label[s[1]] = 1
 
-                        # subject长度=1
+                        # subject长度 = 1
                         if s[1] - s[0] == 0:
                             s_crf_label[s[0]] = 7
                         # subject长度>1
@@ -149,11 +152,11 @@ def process_data(file_path):
     return data_process
 
 
-train_data_process = process_data('./data/train_data.json')
-dev_data_process = process_data('./data/dev_data.json')
+train_data_process = process_data('../信息抽取/data/train_data.json')
+dev_data_process = process_data('../信息抽取/data/dev_data.json')
 
 test1_data_process = []
-with open('./data/test1_data_postag.json', 'r', encoding='utf-8') as f:
+with open('../信息抽取/data/test1_data_postag.json', 'r', encoding='utf-8') as f:
     for idx, line_raw in enumerate(f):
         line_raw = json.loads(line_raw)
         text = line_raw['text']

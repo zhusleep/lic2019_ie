@@ -16,7 +16,7 @@ pos_dim = 50
 num_layers = 2
 HIDDEN_DIM = 512
 BATCH_SIZE = 64
-num_words = 8000
+num_words = 7000
 
 Net = Match_LSTM
 

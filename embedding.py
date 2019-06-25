@@ -8,8 +8,9 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_embdding(embedding_name='baidubaike', num_words=8000):
-    path = './Chinese-Word-Vectors/sgns.%s.bigram-char' % embedding_name
-
+    #path = './Chinese-Word-Vectors/sgns.%s.bigram-char' % embedding_name
+    path = embedding_name
+    embedding_name = 'baidubaike'
     with open(DIR + '/data_deal/%d/word_index.pkl' % num_words, 'rb') as f:
         word_index = pickle.load(f)
 
@@ -47,12 +48,13 @@ def get_embdding(embedding_name='baidubaike', num_words=8000):
     with open(DIR + '/data_deal/%d/weight_%s.pkl' % (num_words, embedding_name), 'wb') as f:
         pickle.dump(weight, f)
 
-
-if __name__ == '__main__':
-    embedding_name_list = ['baidubaike', 'renmin', 'sogounews', 'weibo', 'wiki', 'zhihu']
-    num_words_list = [6000, 7000]
-    for embedding_name in embedding_name_list:
-        for num_words in num_words_list:
-            print('start %s %d' % (embedding_name, num_words))
-            get_embdding(embedding_name, num_words)
-            print('finish %s %d' % (embedding_name, num_words))
+get_embdding('../../embedding/baike', 7000)
+#
+# if __name__ == '__main__':
+#     embedding_name_list = ['baidubaike', 'renmin', 'sogounews', 'weibo', 'wiki', 'zhihu']
+#     num_words_list = [6000, 7000]
+#     for embedding_name in embedding_name_list:
+#         for num_words in num_words_list:
+#             print('start %s %d' % (embedding_name, num_words))
+#             get_embdding(embedding_name, num_words)
+#             print('finish %s %d' % (embedding_name, num_words))
